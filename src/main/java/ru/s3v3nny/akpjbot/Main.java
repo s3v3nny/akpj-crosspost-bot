@@ -9,10 +9,8 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String... args) throws IOException, InterruptedException {
-        //String vkResponse = HttpRequestToVK.getLongPollServer();
-        //System.out.println(vkResponse);
-        //Response longPollServer = JsonConverter.longPollServerFromString(vkResponse);
 
+        PostInfo postInfo = new PostInfo();
 
         try {
             TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
@@ -21,29 +19,40 @@ public class Main {
             e.printStackTrace();
         }
 
-        String postInfoString = HttpRequestToVK.getPostInfo();
-        PostInfo postInfo = JsonConverter.postInfoFromString(postInfoString);
+        do{
 
-        int index = 0;
-        int maxResolution = 0;
-        int width;
-        int height;
-        for (int i = 0; i < postInfo.updates.get(0).object.attachments.get(0).photo.sizes.size(); i++) {
-            width = postInfo.updates.get(0).object.attachments.get(0).photo.sizes.get(i).width;
-            height = postInfo.updates.get(0).object.attachments.get(0).photo.sizes.get(i).height;
-            if (width * height > maxResolution) {
-                index = i;
-                maxResolution = width * height;
+            postInfo = HttpRequestToVK.getAndParseInfo();
+
+            if((postInfo.failed != null)) {
+                postInfo = HttpRequestToVK.getAndParseInfo();
             }
-        }
 
-        TelegramPostInfo tgPostInfo = new TelegramPostInfo();
-        tgPostInfo.text = postInfo.updates.get(0).object.text;
-        tgPostInfo.pictureURL = postInfo.updates.get(0).object.attachments.get(0).photo.sizes.get(index).url;
+            if(postInfo.updates.get(0).object.marked_as_ads == 1) continue;
 
-        TelegramBot bot = new TelegramBot();
+            int index = 0;
+            int maxResolution = 0;
+            int width;
+            int height;
+            for (int i = 0; i < postInfo.updates.get(0).object.attachments.get(0).photo.sizes.size(); i++) {
+                width = postInfo.updates.get(0).object.attachments.get(0).photo.sizes.get(i).width;
+                height = postInfo.updates.get(0).object.attachments.get(0).photo.sizes.get(i).height;
+                if (width * height > maxResolution) {
+                    index = i;
+                    maxResolution = width * height;
+                }
+            }
 
-        bot.sendPic(tgPostInfo);
+            TelegramPostInfo tgPostInfo = new TelegramPostInfo();
+            tgPostInfo.text = postInfo.updates.get(0).object.text;
+            tgPostInfo.pictureURL = postInfo.updates.get(0).object.attachments.get(0).photo.sizes.get(index).url;
+
+            TelegramBot bot = new TelegramBot();
+
+            bot.sendPic(tgPostInfo);
+            System.out.println("картин очка отправлена!");
+
+        }while(true);
+
 
     }
 }

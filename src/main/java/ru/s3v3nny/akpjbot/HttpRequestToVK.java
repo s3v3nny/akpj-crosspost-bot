@@ -9,10 +9,10 @@ import java.net.http.HttpResponse;
 //String key, String server, String ts
 
 public class HttpRequestToVK {
-    public static String getPostInfo() throws IOException, InterruptedException {
+    public static String getPostInfo(String key, String server, String ts) throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://lp.vk.com/wh212168415?act=a_check&key=7e968950f6751f197ee72a669807aca4eb47af62&wait=60&ts=3"))
+                .uri(URI.create(server + "?act=a_check&key=" + key + "&wait=3600&ts=" + ts))
                 .GET()
                 .build();
 
@@ -35,5 +35,15 @@ public class HttpRequestToVK {
 
         return response.body();
 
+    }
+
+    public static PostInfo getAndParseInfo() throws IOException, InterruptedException{
+        PostInfo postInfo = new PostInfo();
+        String vkResponse = HttpRequestToVK.getLongPollServer();
+        Response longPollServer = JsonConverter.longPollServerFromString(vkResponse);
+        String postInfoString = HttpRequestToVK.getPostInfo(longPollServer.response.key, longPollServer.response.server, longPollServer.response.key);
+        postInfo = JsonConverter.postInfoFromString(postInfoString);
+
+        return postInfo;
     }
 }

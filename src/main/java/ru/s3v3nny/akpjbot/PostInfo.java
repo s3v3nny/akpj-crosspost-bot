@@ -5,5 +5,5 @@ import java.util.List;
 public class PostInfo {
     String ts;
     public List<Updates> updates;
-    int failed;
+    Integer failed;
 }
