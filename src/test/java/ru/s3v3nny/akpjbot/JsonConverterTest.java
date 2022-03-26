@@ -2,10 +2,14 @@ package ru.s3v3nny.akpjbot;
 
 import org.junit.jupiter.api.Test;
 
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class JsonConverterTest {
-
 
     String longPollServerTestResponse = """
             {"response":{"key":"blahblahSomeKey","server":"https:\\/\\/lp.vk.com\\/wh169644172","ts":"472"}}
@@ -39,6 +43,12 @@ class JsonConverterTest {
             """;
 
 
+    public void setTestStringFromJsonFile () throws IOException {
+        Path jsonFilePath = Path.of("C:/Users/s3v3n/IdeaProjects/akpj-crosspost/src/main/resources/sample.json");
+        String jsonString = Files.readString(jsonFilePath);
+        this.postInfoTestResponse = jsonString;
+    }
+
     @Test
     public void testLongPollServerResponseParsing() {
 
@@ -51,14 +61,28 @@ class JsonConverterTest {
 
 
     @Test
-    public void testPostInfoFromStringResponseParsing() {
+    public void testPostInfoFromStringResponseParsing() throws IOException {
 
+        setTestStringFromJsonFile();
         var parsedResponse = JsonConverter.postInfoFromString(postInfoTestResponse);
 
-        assertNotNull(parsedResponse.updates);
-        assertEquals(1, parsedResponse.updates.length);
-        assertEquals("Post text", parsedResponse.updates[0].object.text);
-        assertEquals("wall_post_new", parsedResponse.updates[0].type);
+        /*assertNotNull(parsedResponse.updates);
+        assertEquals(1, parsedResponse.updates.size());
+        assertEquals("Post text", parsedResponse.updates.get(0).object.text);
+        assertEquals("wall_post_new", parsedResponse.updates.get(0).type);*/
+
+        System.out.println(parsedResponse.updates.get(0).object.text);
+        System.out.println(parsedResponse.updates.get(0).type);
+
+        int index = 0;
+        for(int i = 0; i < parsedResponse.updates.get(0).object.attachments.get(0).photo.sizes.size(); i++) {
+            if("w".equals(parsedResponse.updates.get(0).object.attachments.get(0).photo.sizes.get(i).type)) index = i;
+        }
+        System.out.println(index);
+        System.out.println(parsedResponse.updates.get(0).object.attachments.get(0).photo.sizes.get(index).url);
+    }
+
+    public void testPostInfoFailedResponse () throws IOException {
 
     }
 

@@ -1,6 +1,8 @@
 package ru.s3v3nny.akpjbot;
 
+import java.util.List;
+
 public class UpdateObject {
     String text;
-    Attachments attachments;
+    List<Attachments> attachments;
 }

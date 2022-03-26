@@ -1,8 +1,8 @@
 package ru.s3v3nny.akpjbot;
 
 public class Sizes {
-    public String height;
+    public int height;
     public String url;
     public String type;
-    public String width;
+    public int width;
 }
