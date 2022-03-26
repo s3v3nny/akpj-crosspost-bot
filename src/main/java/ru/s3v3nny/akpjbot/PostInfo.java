@@ -4,6 +4,6 @@ import java.util.List;
 
 public class PostInfo {
     String ts;
-    public List<Update> updates;
+    public List<Updates> updates;
     int failed;
 }

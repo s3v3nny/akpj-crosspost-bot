@@ -6,11 +6,13 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+//String key, String server, String ts
+
 public class HttpRequestToVK {
-    public static String getPostInfo(String key, String server, String ts) throws IOException, InterruptedException {
+    public static String getPostInfo() throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(server + "?act=a_check&key=" + key + "&wait=3600&ts=" + ts))
+                .uri(URI.create("https://lp.vk.com/wh212168415?act=a_check&key=7e968950f6751f197ee72a669807aca4eb47af62&wait=60&ts=3"))
                 .GET()
                 .build();
 
