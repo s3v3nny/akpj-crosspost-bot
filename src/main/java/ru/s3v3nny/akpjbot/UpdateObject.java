@@ -6,4 +6,5 @@ public class UpdateObject {
     String text;
     List<Attachments> attachments;
     int marked_as_ads;
+    String post_type;
 }
