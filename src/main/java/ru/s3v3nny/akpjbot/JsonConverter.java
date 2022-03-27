@@ -6,7 +6,6 @@ public class JsonConverter {
 
     private static final Gson gson = new Gson();
 
-    // TODO: вынести gson в поле, чтобы не создавать новый каждый раз - +
     public static Response longPollServerFromString(String jsonString){
         return gson.fromJson(jsonString, Response.class);
     }

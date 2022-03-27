@@ -26,7 +26,6 @@ public class Main {
             e.printStackTrace();
             System.exit(-1);
         }
-        // TODO: если выпала ошибка, то что произойдет?
 
 
         do {
@@ -42,9 +41,7 @@ public class Main {
             Attachments attachments = postInfo.updates.get(0).object.attachments.get(0);
 
 
-            // TODO: вынести postInfo.updates.get(0) в переменную - +
             if (updates.object.marked_as_ads == 1) continue;
-            // TODO: вынести postInfo.updates.get(0).object.attachments.get(0) в переменную - +
 
             int index = 0;
             int maxResolution = 0;

@@ -14,9 +14,9 @@ import java.net.URL;
 public class TelegramBot extends TelegramLongPollingBot {
 
     // TODO: вынести в конструктор
-    private String botToken = "5185813624:AAERkCPJ8OUt-0WA_iCyPDSo_biCy4qKX3E";
-    private String chatId = "-1001714989081";
-    private String botName = "akpj_bot";
+    private static final String botToken = "5185813624:AAERkCPJ8OUt-0WA_iCyPDSo_biCy4qKX3E";
+    private static final String chatId = "-1001714989081";
+    private static final String botName = "akpj_bot";
 
 
     public void onUpdateReceived(Update update) {
@@ -26,7 +26,6 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     }
 
-    // TODO: зачем synchronized? удалять не надо, надо объяснить зачем
     public synchronized void sendPic(TelegramPostInfo postInfo) throws IOException {
         String chatId = this.chatId;
         URL pictureURL = new URL(postInfo.pictureURL);
