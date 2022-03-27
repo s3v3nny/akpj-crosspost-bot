@@ -14,7 +14,7 @@ public class Main {
     // TODO: задача со звездочкой:
     //  вынести весь код в отдельный класс, сделать все методы во всех остальных классах НЕ статичными
     //  в этом методе оставить только создание объекта класса в который переместишь код и вызов метода
-    public static void main(String... args) throws IOException, InterruptedException, TelegramApiException {
+    public static void main(String... args) throws IOException, InterruptedException {
 
         PostInfo postInfo = new PostInfo();
         Updates updates = postInfo.updates.get(0);
