@@ -43,6 +43,7 @@ class JsonConverterTest {
             """;
 
 
+    // TODO: положи в test resources этот файл. Гуглиться должно. А то у меня тесты не запускаются
     public void setTestStringFromJsonFile () throws IOException {
         Path jsonFilePath = Path.of("C:/Users/s3v3n/IdeaProjects/akpj-crosspost/src/main/resources/sample.json");
         String jsonString = Files.readString(jsonFilePath);
@@ -60,6 +61,8 @@ class JsonConverterTest {
     }
 
 
+    // TODO: почини тесты и напиши еще парочку каких-нибудь: например на фейлы
+    // TODO: сделать эту тудушку только после всего остального
     @Test
     public void testPostInfoFromStringResponseParsing() throws IOException {
 

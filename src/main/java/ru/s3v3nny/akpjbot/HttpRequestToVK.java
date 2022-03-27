@@ -8,7 +8,9 @@ import java.net.http.HttpResponse;
 
 //String key, String server, String ts
 
+// TODO: сделать методы, которые не используются в других классах, приватными
 public class HttpRequestToVK {
+
     public static String getPostInfo(String key, String server, String ts) throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
@@ -23,6 +25,7 @@ public class HttpRequestToVK {
 
     }
 
+    // TODO: группу и токен перенести в аргументы
     public static String getLongPollServer() throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
@@ -37,8 +40,9 @@ public class HttpRequestToVK {
 
     }
 
+    // TODO: зачем каждый раз запрашивать новый лонгпулсервер? давай вынесем в поле и будем обновлять только если ошибка
     public static PostInfo getAndParseInfo() throws IOException, InterruptedException{
-        PostInfo postInfo = new PostInfo();
+        PostInfo postInfo;
         String vkResponse = HttpRequestToVK.getLongPollServer();
         Response longPollServer = JsonConverter.longPollServerFromString(vkResponse);
         String postInfoString = HttpRequestToVK.getPostInfo(longPollServer.response.key, longPollServer.response.server, longPollServer.response.key);
