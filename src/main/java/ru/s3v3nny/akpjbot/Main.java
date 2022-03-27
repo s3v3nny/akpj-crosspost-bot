@@ -26,6 +26,7 @@ public class Main {
             telegramBotsApi.registerBot(bot);
         } catch (TelegramApiException e) {
             e.printStackTrace();
+            System.exit(-1);
         }
         // TODO: если выпала ошибка, то что произойдет?
 
