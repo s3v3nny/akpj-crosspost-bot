@@ -4,16 +4,15 @@ import com.google.gson.Gson;
 
 public class JsonConverter {
 
-    // TODO: вынести gson в поле, чтобы не создавать новый каждый раз
+    private static final Gson gson = new Gson();
+
+    // TODO: вынести gson в поле, чтобы не создавать новый каждый раз - +
     public static Response longPollServerFromString(String jsonString){
-        Gson gson = new Gson();
-        Response connectInfo = gson.fromJson(jsonString, Response.class);
-        return connectInfo;
+        return gson.fromJson(jsonString, Response.class);
     }
 
     public static PostInfo postInfoFromString(String jsonString) {
-        Gson gson = new Gson();
-        PostInfo postInfo = gson.fromJson(jsonString, PostInfo.class);
-        return postInfo;
+
+        return gson.fromJson(jsonString, PostInfo.class);
     }
 }

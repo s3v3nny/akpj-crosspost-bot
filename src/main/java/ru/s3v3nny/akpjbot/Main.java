@@ -5,6 +5,8 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import java.io.IOException;
+import java.util.Comparator;
+import java.util.List;
 
 
 public class Main {
@@ -15,6 +17,8 @@ public class Main {
     public static void main(String... args) throws IOException, InterruptedException {
 
         PostInfo postInfo = new PostInfo();
+        Updates updates = postInfo.updates.get(0);
+        Attachments attachments = postInfo.updates.get(0).object.attachments.get(0);
 
         try {
             TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
@@ -32,22 +36,25 @@ public class Main {
                 postInfo = HttpRequestToVK.getAndParseInfo();
             }
 
-            // TODO: вынести postInfo.updates.get(0) в переменную
-            if(postInfo.updates.get(0).object.marked_as_ads == 1) continue;
-            // TODO: вынести postInfo.updates.get(0).object.attachments.get(0) в переменную
+
+
+            // TODO: вынести postInfo.updates.get(0) в переменную - +
+            if(updates.object.marked_as_ads == 1) continue;
+            // TODO: вынести postInfo.updates.get(0).object.attachments.get(0) в переменную - +
 
             int index = 0;
             int maxResolution = 0;
             int width;
             int height;
             // TODO: задачка со звездочкой: почитать про Stream API, поэкспериментировать с переписыванием данного метода на Stream API
-            for (int i = 0; i < postInfo.updates.get(0).object.attachments.get(0).photo.sizes.size(); i++) {
-                width = postInfo.updates.get(0).object.attachments.get(0).photo.sizes.get(i).width;
-                height = postInfo.updates.get(0).object.attachments.get(0).photo.sizes.get(i).height;
+            for (int i = 0; i < attachments.photo.sizes.size(); i++) {
+                width = attachments.photo.sizes.get(i).width;
+                height = attachments.photo.sizes.get(i).height;
                 if (width * height > maxResolution) {
                     index = i;
                     maxResolution = width * height;
                 }
+
             }
 
             TelegramPostInfo tgPostInfo = new TelegramPostInfo();
@@ -56,6 +63,7 @@ public class Main {
 
             // TODO: зачем? ты же уже создал бота выше
             TelegramBot bot = new TelegramBot();
+
 
             bot.sendPic(tgPostInfo);
             System.out.println("картин очка отправлена!");
