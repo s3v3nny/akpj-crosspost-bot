@@ -8,6 +8,10 @@ import java.io.IOException;
 
 
 public class Main {
+
+    // TODO: задача со звездочкой:
+    //  вынести весь код в отдельный класс, сделать все методы во всех остальных классах НЕ статичными
+    //  в этом методе оставить только создание объекта класса в который переместишь код и вызов метода
     public static void main(String... args) throws IOException, InterruptedException {
 
         PostInfo postInfo = new PostInfo();
@@ -15,11 +19,12 @@ public class Main {
         try {
             TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
             telegramBotsApi.registerBot(new TelegramBot());
+            // TODO: если выпала ошибка, то что произойдет?
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
 
-        do{
+        do {
 
             postInfo = HttpRequestToVK.getAndParseInfo();
 
@@ -27,12 +32,15 @@ public class Main {
                 postInfo = HttpRequestToVK.getAndParseInfo();
             }
 
+            // TODO: вынести postInfo.updates.get(0) в переменную
             if(postInfo.updates.get(0).object.marked_as_ads == 1) continue;
+            // TODO: вынести postInfo.updates.get(0).object.attachments.get(0) в переменную
 
             int index = 0;
             int maxResolution = 0;
             int width;
             int height;
+            // TODO: задачка со звездочкой: почитать про Stream API, поэкспериментировать с переписыванием данного метода на Stream API
             for (int i = 0; i < postInfo.updates.get(0).object.attachments.get(0).photo.sizes.size(); i++) {
                 width = postInfo.updates.get(0).object.attachments.get(0).photo.sizes.get(i).width;
                 height = postInfo.updates.get(0).object.attachments.get(0).photo.sizes.get(i).height;
@@ -46,6 +54,7 @@ public class Main {
             tgPostInfo.text = postInfo.updates.get(0).object.text;
             tgPostInfo.pictureURL = postInfo.updates.get(0).object.attachments.get(0).photo.sizes.get(index).url;
 
+            // TODO: зачем? ты же уже создал бота выше
             TelegramBot bot = new TelegramBot();
 
             bot.sendPic(tgPostInfo);
