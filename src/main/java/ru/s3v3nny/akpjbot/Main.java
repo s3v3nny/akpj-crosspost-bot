@@ -16,9 +16,7 @@ public class Main {
     //  в этом методе оставить только создание объекта класса в который переместишь код и вызов метода
     public static void main(String... args) throws IOException, InterruptedException {
 
-        PostInfo postInfo = new PostInfo();
-        Updates updates = postInfo.updates.get(0);
-        Attachments attachments = postInfo.updates.get(0).object.attachments.get(0);
+
         TelegramBot bot = new TelegramBot();
 
         try {
@@ -33,11 +31,15 @@ public class Main {
 
         do {
 
-            postInfo = HttpRequestToVK.getAndParseInfo();
+            PostInfo postInfo = HttpRequestToVK.getAndParseInfo();
 
-            if ((postInfo.failed != null)) {
+            while(postInfo.failed != null)
                 postInfo = HttpRequestToVK.getAndParseInfo();
-            }
+
+            if (postInfo.updates.size() == 0) continue;
+
+            Updates updates = postInfo.updates.get(0);
+            Attachments attachments = postInfo.updates.get(0).object.attachments.get(0);
 
 
             // TODO: вынести postInfo.updates.get(0) в переменную - +

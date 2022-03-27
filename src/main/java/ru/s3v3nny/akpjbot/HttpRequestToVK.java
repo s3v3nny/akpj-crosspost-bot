@@ -44,8 +44,10 @@ public class HttpRequestToVK {
     public static PostInfo getAndParseInfo() throws IOException, InterruptedException{
         PostInfo postInfo;
         String vkResponse = HttpRequestToVK.getLongPollServer();
+        System.out.println("Long Poll Server Response: " + vkResponse);
         Response longPollServer = JsonConverter.longPollServerFromString(vkResponse);
-        String postInfoString = HttpRequestToVK.getPostInfo(longPollServer.response.key, longPollServer.response.server, longPollServer.response.key);
+        String postInfoString = HttpRequestToVK.getPostInfo(longPollServer.response.key, longPollServer.response.server, longPollServer.response.ts);
+        System.out.println("Post Info Response: " + postInfoString);
         postInfo = JsonConverter.postInfoFromString(postInfoString);
 
         return postInfo;
