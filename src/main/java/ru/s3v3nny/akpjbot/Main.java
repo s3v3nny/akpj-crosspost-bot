@@ -42,7 +42,7 @@ public class Main {
             Updates updates = postInfo.updates.get(0);
             Attachments attachments = postInfo.updates.get(0).object.attachments.get(0);
 
-            if("suggested".equals(updates.object.post_type)) continue;
+            if("suggest".equals(updates.object.post_type)) continue;
             if (updates.object.marked_as_ads == 1) continue;
 
             int index = 0;
