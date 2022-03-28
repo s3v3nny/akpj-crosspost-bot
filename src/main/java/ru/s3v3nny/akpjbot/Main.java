@@ -36,11 +36,11 @@ public class Main {
                 postInfo = HttpRequestToVK.getAndParseInfo();
 
             if (postInfo.updates.size() == 0) continue;
+            
+            if("suggest".equals(postInfo.updates.get(0).object.post_type)) continue;
 
             Updates updates = postInfo.updates.get(0);
             Attachments attachments = postInfo.updates.get(0).object.attachments.get(0);
-
-            if("suggest".equals(updates.object.post_type)) continue;
 
             if (updates.object.marked_as_ads == 1) continue;
 
