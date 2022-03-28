@@ -37,8 +37,6 @@ public class Main {
 
             if (postInfo.updates.size() == 0) continue;
 
-            if(!(postInfo.updates.get(0).object.toString().toLowerCase().contains("attachments"))) continue;
-
             Updates updates = postInfo.updates.get(0);
             Attachments attachments = postInfo.updates.get(0).object.attachments.get(0);
 
