@@ -5,8 +5,6 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import java.io.IOException;
-import java.util.Comparator;
-import java.util.List;
 
 
 public class Main {
@@ -37,12 +35,11 @@ public class Main {
 
             if (postInfo.updates.size() == 0) continue;
 
-            if(!(postInfo.updates.get(0).object.toString().toLowerCase().contains("attachments"))) continue;
+            if("suggest".equals(postInfo.updates.get(0).object.post_type)) continue;
 
             Updates updates = postInfo.updates.get(0);
             Attachments attachments = postInfo.updates.get(0).object.attachments.get(0);
 
-            if("suggest".equals(updates.object.post_type)) continue;
 
             if (updates.object.marked_as_ads == 1) continue;
 
