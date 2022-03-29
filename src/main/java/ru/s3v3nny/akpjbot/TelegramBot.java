@@ -15,13 +15,14 @@ import ru.s3v3nny.akpjbot.models.telegram.*;
 
 public class TelegramBot extends TelegramLongPollingBot {
 
-    // TODO: вынести в конструктор
-    private static final String botToken = "5185813624:AAERkCPJ8OUt-0WA_iCyPDSo_biCy4qKX3E";
-    private static final String chatId = "-1001714989081";
-    private static final String botName = "akpj_bot";
+    private final String botToken;
+    private final String chatId;
+    private final String botName;
 
     public TelegramBot(String botToken, String chatId, String botName) {
-
+        this.botName = botName;
+        this.chatId = chatId;
+        this.botToken = botToken;
     }
 
 
