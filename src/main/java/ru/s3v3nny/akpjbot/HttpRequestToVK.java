@@ -1,55 +1,79 @@
 package ru.s3v3nny.akpjbot;
 
+import org.checkerframework.checker.units.qual.K;
+import ru.s3v3nny.akpjbot.configs.LPSInfo;
+import ru.s3v3nny.akpjbot.models.vk.*;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-//String key, String server, String ts
 
 // TODO: сделать методы, которые не используются в других классах, приватными
 public class HttpRequestToVK {
 
-    public static String getPostInfo(String key, String server, String ts) throws IOException, InterruptedException {
+    private final JsonConverter converter = new JsonConverter();
+
+    private String getPost(String key, String server, String ts) {
+
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(server + "?act=a_check&key=" + key + "&wait=3600&ts=" + ts))
                 .GET()
                 .build();
 
-        HttpResponse<String> response = client.send(request,
-                HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = null;
+
+        try {
+            response = client.send(request,
+                    HttpResponse.BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
 
         return response.body();
 
     }
 
-    // TODO: группу и токен перенести в аргументы
-    public static String getLongPollServer() throws IOException, InterruptedException {
+    private String getLongPollServer(String token, String groupId) {
+
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://api.vk.com/method/groups.getLongPollServer?group_id=169644172&v=5.131&access_token=5a3a6fde6dc849a01decef984bad0bd69d6171c29a98264df3d30a7f59c75af7f5844eb921dd6c75bd4dc"))
+                .uri(URI.create("https://api.vk.com/method/groups.getLongPollServer?group_id=" + groupId + "&v=5.131&access_token=" + token))
                 .GET()
                 .build();
 
-        HttpResponse<String> response = client.send(request,
-                HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = null;
+
+        try {
+            response = client.send(request,
+                    HttpResponse.BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
 
         return response.body();
 
     }
 
     // TODO: зачем каждый раз запрашивать новый лонгпулсервер? давай вынесем в поле и будем обновлять только если ошибка
-    public static PostInfo getAndParseInfo() throws IOException, InterruptedException{
-        PostInfo postInfo;
-        String vkResponse = HttpRequestToVK.getLongPollServer();
-        System.out.println("Long Poll Server Response: " + vkResponse);
-        Response longPollServer = JsonConverter.longPollServerFromString(vkResponse);
-        String postInfoString = HttpRequestToVK.getPostInfo(longPollServer.response.key, longPollServer.response.server, longPollServer.response.ts);
-        System.out.println("Post Info Response: " + postInfoString);
-        postInfo = JsonConverter.postInfoFromString(postInfoString);
+    public PostInfo getPostInfo(Response lPS)  {
 
-        return postInfo;
+        String postInfoString = getPost(lPS.response.key, lPS.response.server, lPS.response.ts);
+
+        System.out.println("Post Info Response: " + postInfoString);
+        return converter.postInfoFromString(postInfoString);
+    }
+
+    public Response getLongPollServerInfo(LPSInfo lpsInfo) {
+
+        String vkResponse = getLongPollServer(lpsInfo.token, lpsInfo.group_id);
+
+        System.out.println("LPS Response: " + vkResponse);
+        return converter.responseInfoFromString(vkResponse);
     }
 }

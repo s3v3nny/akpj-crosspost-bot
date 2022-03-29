@@ -11,6 +11,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class JsonConverterTest {
 
+    private final JsonConverter converter = new JsonConverter();
+
     String longPollServerTestResponse = """
             {"response":{"key":"blahblahSomeKey","server":"https:\\/\\/lp.vk.com\\/wh169644172","ts":"472"}}
             """;
@@ -53,7 +55,7 @@ class JsonConverterTest {
     @Test
     public void testLongPollServerResponseParsing() {
 
-        var parsedResponse = JsonConverter.longPollServerFromString(longPollServerTestResponse);
+        var parsedResponse = converter.responseInfoFromString(longPollServerTestResponse);
 
         assertEquals("blahblahSomeKey", parsedResponse.response.key);
         assertEquals("https://lp.vk.com/wh169644172", parsedResponse.response.server);
@@ -67,7 +69,7 @@ class JsonConverterTest {
     public void testPostInfoFromStringResponseParsing() throws IOException {
 
         setTestStringFromJsonFile();
-        var parsedResponse = JsonConverter.postInfoFromString(postInfoTestResponse);
+        var parsedResponse = converter.postInfoFromString(postInfoTestResponse);
 
         /*assertNotNull(parsedResponse.updates);
         assertEquals(1, parsedResponse.updates.size());

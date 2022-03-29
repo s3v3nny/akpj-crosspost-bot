@@ -1,4 +1,4 @@
-package ru.s3v3nny.akpjbot;
+package ru.s3v3nny.akpjbot.models.vk;
 
 public class Sizes {
     public int height;
