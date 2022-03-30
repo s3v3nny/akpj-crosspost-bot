@@ -11,8 +11,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-import ru.s3v3nny.akpjbot.models.telegram.*;
-
 public class TelegramBot extends TelegramLongPollingBot {
 
     private final String botToken;
@@ -26,12 +24,9 @@ public class TelegramBot extends TelegramLongPollingBot {
     }
 
 
-    public void onUpdateReceived(Update update) {
-    }
+    public void onUpdateReceived(Update update) {}
 
-    public synchronized void sendMsg(String chatId, TelegramPostInfo postInfo) {
-
-    }
+    public synchronized void sendMsg() {}
 
     public synchronized void sendPic(TelegramPostInfo postInfo) throws IOException {
         String chatId = this.chatId;

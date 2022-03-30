@@ -6,21 +6,21 @@ import ru.s3v3nny.akpjbot.configs.*;
 
 public class JsonConverter {
 
-    private static final Gson gson = new Gson();
+    private static final Gson GSON = new Gson();
 
     public Response responseInfoFromString (String jsonString) {
-        return gson.fromJson(jsonString, Response.class);
+        return GSON.fromJson(jsonString, Response.class);
     }
 
     public PostInfo postInfoFromString(String jsonString) {
-        return gson.fromJson(jsonString, PostInfo.class);
+        return GSON.fromJson(jsonString, PostInfo.class);
     }
 
     public TelegramBotInfo botInfoFromString(String botInfo) {
-        return gson.fromJson(botInfo, TelegramBotInfo.class);
+        return GSON.fromJson(botInfo, TelegramBotInfo.class);
     }
 
     public LPSInfo lpsInfoFromString (String lpsInfo) {
-        return gson.fromJson(lpsInfo, LPSInfo.class);
+        return GSON.fromJson(lpsInfo, LPSInfo.class);
     }
 }

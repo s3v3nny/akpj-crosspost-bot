@@ -11,12 +11,11 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 
-// TODO: сделать методы, которые не используются в других классах, приватными
 public class HttpRequestToVK {
 
-    private final JsonConverter converter = new JsonConverter();
+    private final JsonConverter CONVERTER = new JsonConverter();
 
-    private String getPost(String key, String server, String ts) {
+    private String getPostInfo(String key, String server, String ts) {
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
@@ -38,7 +37,7 @@ public class HttpRequestToVK {
 
     }
 
-    private String getLongPollServer(String token, String groupId) {
+    private String getLongPollServerInfo(String token, String groupId) {
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
@@ -61,19 +60,19 @@ public class HttpRequestToVK {
     }
 
     // TODO: зачем каждый раз запрашивать новый лонгпулсервер? давай вынесем в поле и будем обновлять только если ошибка
-    public PostInfo getPostInfo(Response lPS)  {
+    public PostInfo parsePostInfo(Response lPS)  {
 
-        String postInfoString = getPost(lPS.response.key, lPS.response.server, lPS.response.ts);
+        String postInfoString = getPostInfo(lPS.response.key, lPS.response.server, lPS.response.ts);
 
         System.out.println("Post Info Response: " + postInfoString);
-        return converter.postInfoFromString(postInfoString);
+        return CONVERTER.postInfoFromString(postInfoString);
     }
 
-    public Response getLongPollServerInfo(LPSInfo lpsInfo) {
+    public Response parseLongPollServerInfo(LPSInfo lpsInfo) {
 
-        String vkResponse = getLongPollServer(lpsInfo.token, lpsInfo.group_id);
+        String vkResponse = getLongPollServerInfo(lpsInfo.token, lpsInfo.group_id);
 
         System.out.println("LPS Response: " + vkResponse);
-        return converter.responseInfoFromString(vkResponse);
+        return CONVERTER.responseInfoFromString(vkResponse);
     }
 }

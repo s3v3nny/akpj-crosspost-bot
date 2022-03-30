@@ -68,12 +68,12 @@ public class Main {
 
 
         do {
-            Response response = requestToVK.getLongPollServerInfo(lpsInfo);
-            PostInfo postInfo = requestToVK.getPostInfo(response);
+            Response response = requestToVK.parseLongPollServerInfo(lpsInfo);
+            PostInfo postInfo = requestToVK.parsePostInfo(response);
 
             while (postInfo.failed != null) {
-                postInfo = requestToVK.getPostInfo(response);
-                response = requestToVK.getLongPollServerInfo(lpsInfo);
+                postInfo = requestToVK.parsePostInfo(response);
+                response = requestToVK.parseLongPollServerInfo(lpsInfo);
             }
 
             if (postInfo.updates.size() == 0) continue;
