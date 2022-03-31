@@ -1,17 +1,26 @@
 package ru.s3v3nny.akpjbot;
 
 import com.google.gson.Gson;
+import ru.s3v3nny.akpjbot.models.vk.*;
+import ru.s3v3nny.akpjbot.configs.*;
 
 public class JsonConverter {
 
-    private static final Gson gson = new Gson();
+    private static final Gson GSON = new Gson();
 
-    public static Response longPollServerFromString(String jsonString){
-        return gson.fromJson(jsonString, Response.class);
+    public Response responseInfoFromString (String jsonString) {
+        return GSON.fromJson(jsonString, Response.class);
     }
 
-    public static PostInfo postInfoFromString(String jsonString) {
+    public PostInfo postInfoFromString(String jsonString) {
+        return GSON.fromJson(jsonString, PostInfo.class);
+    }
 
-        return gson.fromJson(jsonString, PostInfo.class);
+    public TelegramBotInfo botInfoFromString(String botInfo) {
+        return GSON.fromJson(botInfo, TelegramBotInfo.class);
+    }
+
+    public LPSInfo lpsInfoFromString (String lpsInfo) {
+        return GSON.fromJson(lpsInfo, LPSInfo.class);
     }
 }

@@ -5,26 +5,28 @@ import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import ru.s3v3nny.akpjbot.models.telegram.TelegramPostInfo;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class TelegramBot extends TelegramLongPollingBot {
 
-    // TODO: вынести в конструктор
-    private static final String botToken = "5185813624:AAERkCPJ8OUt-0WA_iCyPDSo_biCy4qKX3E";
-    private static final String chatId = "-1001714989081";
-    private static final String botName = "akpj_bot";
+    private final String botToken;
+    private final String chatId;
+    private final String botName;
 
-
-    public void onUpdateReceived(Update update) {
+    public TelegramBot(String botToken, String chatId, String botName) {
+        this.botName = botName;
+        this.chatId = chatId;
+        this.botToken = botToken;
     }
 
-    public synchronized void sendMsg(String chatId, TelegramPostInfo postInfo) {
 
-    }
+    public void onUpdateReceived(Update update) {}
+
+    public synchronized void sendMsg() {}
 
     public synchronized void sendPic(TelegramPostInfo postInfo) throws IOException {
         String chatId = this.chatId;
