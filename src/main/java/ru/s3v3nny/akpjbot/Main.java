@@ -85,7 +85,6 @@ public class Main {
             Updates updates = postInfo.updates.get(0);
             List<Sizes> sizes = postInfo.updates.get(0).object.attachments.get(0).photo.sizes;
 
-
             if (updates.object.marked_as_ads == 1) continue;
 
 
