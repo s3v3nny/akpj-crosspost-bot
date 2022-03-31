@@ -14,6 +14,8 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Comparator;
+import java.util.List;
 
 
 public class Main {
@@ -39,7 +41,7 @@ public class Main {
         try {
             lpsFile = new File(lpsURL.toURI());
             tgFile = new File(tgURL.toURI());
-        } catch (URISyntaxException e) {
+        } catch (URISyntaxException | NullPointerException e) {
             e.printStackTrace();
             System.exit(-1);
         }
@@ -81,29 +83,20 @@ public class Main {
             if ("suggest".equals(postInfo.updates.get(0).object.post_type)) continue;
 
             Updates updates = postInfo.updates.get(0);
-            Attachments attachments = postInfo.updates.get(0).object.attachments.get(0);
+            List<Sizes> sizes = postInfo.updates.get(0).object.attachments.get(0).photo.sizes;
 
 
             if (updates.object.marked_as_ads == 1) continue;
 
-            int index = 0;
-            int maxResolution = 0;
-            int width;
-            int height;
-            // TODO: задачка со звездочкой: почитать про Stream API, поэкспериментировать с переписыванием данного метода на Stream API
-            for (int i = 0; i < attachments.photo.sizes.size(); i++) {
-                width = attachments.photo.sizes.get(i).width;
-                height = attachments.photo.sizes.get(i).height;
-                if (width * height > maxResolution) {
-                    index = i;
-                    maxResolution = width * height;
-                }
 
-            }
+            List<Sizes> sortedSizes = sizes.stream()
+                    .peek(s1 -> s1.setResolution(s1.width, s1.height))
+                    .sorted(Comparator.comparing(Sizes::getResolution).reversed())
+                    .toList();
 
             TelegramPostInfo tgPostInfo = new TelegramPostInfo();
             tgPostInfo.text = postInfo.updates.get(0).object.text;
-            tgPostInfo.pictureURL = postInfo.updates.get(0).object.attachments.get(0).photo.sizes.get(index).url;
+            tgPostInfo.pictureURL = sortedSizes.get(0).url;
 
             try {
                 bot.sendPic(tgPostInfo);
