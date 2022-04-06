@@ -80,7 +80,7 @@ public class Main {
 
             if (postInfo.updates.size() == 0) continue;
             if (postInfo.updates.get(0).object.attachments.size() == 0) continue;
-            if (postInfo.updates.get(0).object.attachments.get(0).photo.sizes.size() == 0) continue;
+            if (postInfo.updates.get(0).object.attachments.get(0).photo == null) continue;
 
             if ("suggest".equals(postInfo.updates.get(0).object.post_type)) continue;
 
