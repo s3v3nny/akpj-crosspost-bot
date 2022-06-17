@@ -59,8 +59,7 @@ public class HttpRequestToVK {
 
     }
 
-    // TODO: зачем каждый раз запрашивать новый лонгпулсервер? давай вынесем в поле и будем обновлять только если ошибка
-    public PostInfo parsePostInfo(Response lPS)  {
+    public PostInfo parsePostInfo(Response lPS) {
 
         String postInfoString = getPostInfo(lPS.response.key, lPS.response.server, lPS.response.ts);
 
