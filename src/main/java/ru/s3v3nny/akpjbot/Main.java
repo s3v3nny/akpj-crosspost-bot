@@ -70,11 +70,8 @@ public class Main {
 
         do {
             Response response = requestToVK.parseLongPollServerInfo(lpsInfo);
-            while(response.response.key == null ||
-                    response.response.server == null || response.response.ts == null) {
-                response = requestToVK.parseLongPollServerInfo(lpsInfo);
-            }
-
+            if (response.response.ts == null || response.response.key == null || response.response.server == null)
+                continue;
             PostInfo postInfo = requestToVK.parsePostInfo(response);
 
             while (postInfo.failed != null) {
