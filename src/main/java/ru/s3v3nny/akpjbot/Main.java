@@ -70,15 +70,15 @@ public class Main {
 
         do {
             Response response = requestToVK.parseLongPollServerInfo(lpsInfo);
-            if (response.response.ts == null || response.response.key == null || response.response.server == null)
-                continue;
+            if (response.error.error_code != 0) {
+                System.exit(-1);
+            }
             PostInfo postInfo = requestToVK.parsePostInfo(response);
 
             while (postInfo.failed != null) {
                 postInfo = requestToVK.parsePostInfo(response);
                 response = requestToVK.parseLongPollServerInfo(lpsInfo);
             }
-
 
             if (postInfo.updates.size() == 0) continue;
             if ("suggest".equals(postInfo.updates.get(0).object.post_type)) continue;

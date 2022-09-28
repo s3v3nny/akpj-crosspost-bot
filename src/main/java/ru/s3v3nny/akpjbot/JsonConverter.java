@@ -8,7 +8,7 @@ public class JsonConverter {
 
     private static final Gson GSON = new Gson();
 
-    public Response responseInfoFromString (String jsonString) {
+    public Response responseInfoFromString(String jsonString) {
         return GSON.fromJson(jsonString, Response.class);
     }
 
@@ -20,7 +20,7 @@ public class JsonConverter {
         return GSON.fromJson(botInfo, TelegramBotInfo.class);
     }
 
-    public LPSInfo lpsInfoFromString (String lpsInfo) {
+    public LPSInfo lpsInfoFromString(String lpsInfo) {
         return GSON.fromJson(lpsInfo, LPSInfo.class);
     }
 }
