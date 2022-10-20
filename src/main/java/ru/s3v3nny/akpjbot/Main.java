@@ -70,7 +70,7 @@ public class Main {
 
         do {
             Response response = requestToVK.parseLongPollServerInfo(lpsInfo);
-            if (response.error != null) {
+            if (response == null) {
                 System.exit(-1);
             }
             PostInfo postInfo = requestToVK.parsePostInfo(response);
