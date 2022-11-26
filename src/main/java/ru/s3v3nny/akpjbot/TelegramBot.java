@@ -26,8 +26,6 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     public void onUpdateReceived(Update update) {}
 
-    public synchronized void sendMsg() {}
-
     public synchronized void sendPic(TelegramPostInfo postInfo) throws IOException {
         String chatId = this.chatId;
         URL pictureURL = new URL(postInfo.pictureURL);

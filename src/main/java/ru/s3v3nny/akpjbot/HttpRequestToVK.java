@@ -41,7 +41,8 @@ public class HttpRequestToVK {
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://api.vk.com/method/groups.getLongPollServer?group_id=" + groupId + "&v=5.131&access_token=" + token))
+                .uri(URI.create("https://api.vk.com/method/groups.getLongPollServer?group_id="
+                        + groupId + "&v=5.131&access_token=" + token))
                 .GET()
                 .build();
 
@@ -60,6 +61,12 @@ public class HttpRequestToVK {
     }
 
     public PostInfo parsePostInfo(Response lPS) {
+
+        try {
+            String exceptionCheck = lPS.response.key;
+        } catch (Exception e) {
+            System.exit(-1);
+        }
 
         String postInfoString = getPostInfo(lPS.response.key, lPS.response.server, lPS.response.ts);
 
