@@ -1,6 +1,5 @@
 package ru.s3v3nny.akpjbot;
 
-import org.checkerframework.checker.units.qual.K;
 import ru.s3v3nny.akpjbot.configs.LPSInfo;
 import ru.s3v3nny.akpjbot.models.vk.*;
 
@@ -63,7 +62,7 @@ public class HttpRequestToVK {
     public PostInfo parsePostInfo(Response lPS) {
 
         try {
-            String exceptionCheck = lPS.response.key;
+            String catchException = lPS.response.key;
         } catch (Exception e) {
             System.exit(-1);
         }
