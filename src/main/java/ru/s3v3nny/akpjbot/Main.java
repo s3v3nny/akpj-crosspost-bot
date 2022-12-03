@@ -20,9 +20,6 @@ import java.util.List;
 
 public class Main {
 
-    // TODO: задача со звездочкой:
-    //  вынести весь код в отдельный класс, сделать все методы во всех остальных классах НЕ статичными
-    //  в этом методе оставить только создание объекта класса в который переместишь код и вызов метода
     public static void main(String... args) {
 
         JsonConverter converter = new JsonConverter();
@@ -70,13 +67,6 @@ public class Main {
 
         do {
             Response response = requestToVK.parseLongPollServerInfo(lpsInfo);
-
-            try {
-                String exceptionCheck = response.response.key;
-            } catch (Exception e) {
-                System.exit(-1);
-            }
-
             PostInfo postInfo = requestToVK.parsePostInfo(response);
 
             while (postInfo.failed != null) {
@@ -89,7 +79,6 @@ public class Main {
             if (postInfo.updates.get(0).object == null) continue;
             if (postInfo.updates.get(0).object.attachments == null) continue;
             if (postInfo.updates.get(0).object.attachments.get(0).photo == null) continue;
-
 
             Updates updates = postInfo.updates.get(0);
             List<Sizes> sizes = postInfo.updates.get(0).object.attachments.get(0).photo.sizes;

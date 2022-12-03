@@ -12,7 +12,7 @@ import java.net.http.HttpResponse;
 
 public class HttpRequestToVK {
 
-    private final JsonConverter CONVERTER = new JsonConverter();
+    private final JsonConverter converter = new JsonConverter();
 
     private String getPostInfo(String key, String server, String ts) {
 
@@ -70,7 +70,7 @@ public class HttpRequestToVK {
         String postInfoString = getPostInfo(lPS.response.key, lPS.response.server, lPS.response.ts);
 
         System.out.println("Post Info Response: " + postInfoString);
-        return CONVERTER.postInfoFromString(postInfoString);
+        return converter.postInfoFromString(postInfoString);
     }
 
     public Response parseLongPollServerInfo(LPSInfo lpsInfo) {
@@ -78,6 +78,6 @@ public class HttpRequestToVK {
         String vkResponse = getLongPollServerInfo(lpsInfo.token, lpsInfo.group_id);
 
         System.out.println("LPS Response: " + vkResponse);
-        return CONVERTER.responseInfoFromString(vkResponse);
+        return converter.responseInfoFromString(vkResponse);
     }
 }
