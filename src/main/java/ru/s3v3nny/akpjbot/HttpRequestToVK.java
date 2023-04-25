@@ -8,6 +8,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.Duration;
 
 
 public class HttpRequestToVK {
@@ -15,10 +16,10 @@ public class HttpRequestToVK {
     private final JsonConverter converter = new JsonConverter();
 
     private String getPostInfo(String key, String server, String ts) {
-
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(server + "?act=a_check&key=" + key + "&wait=3600&ts=" + ts))
+                .timeout(Duration.ofMinutes(1))
                 .GET()
                 .build();
 
@@ -40,8 +41,8 @@ public class HttpRequestToVK {
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://api.vk.com/method/groups.getLongPollServer?group_id="
-                        + groupId + "&v=5.131&access_token=" + token))
+                .uri(URI.create("https://api.vk.com/method/groups.getLongPollServer?group_id=" + groupId + "&v=5.131&access_token=" + token))
+                .timeout(Duration.ofMinutes(1))
                 .GET()
                 .build();
 
@@ -60,12 +61,6 @@ public class HttpRequestToVK {
     }
 
     public PostInfo parsePostInfo(Response lPS) {
-
-        try {
-            String catchException = lPS.response.key;
-        } catch (Exception e) {
-            System.exit(-1);
-        }
 
         String postInfoString = getPostInfo(lPS.response.key, lPS.response.server, lPS.response.ts);
 
