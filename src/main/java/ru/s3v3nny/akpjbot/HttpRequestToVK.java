@@ -62,6 +62,12 @@ public class HttpRequestToVK {
 
     public PostInfo parsePostInfo(Response lPS) {
 
+        try {
+            String catchException = lPS.response.key;
+        } catch (Exception e) {
+            System.exit(-1);
+        }
+
         String postInfoString = getPostInfo(lPS.response.key, lPS.response.server, lPS.response.ts);
 
         System.out.println("Post Info Response: " + postInfoString);
